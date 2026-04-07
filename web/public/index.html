@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriEdge OMS - Order Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>AgriEdge Or-Mange Ltd</h1>
+                <p>Order Management System</p>
+            </div>
+            <div class="header-badge">
+                <span class="status-online">● Online</span>
+            </div>
+        </header>
+
+        <!-- Tabs Navigation -->
+        <nav class="tabs">
+            <button class="tab-button active" data-tab="orders">
+                <span class="tab-icon">📋</span>
+                Orders
+            </button>
+            <button class="tab-button" data-tab="items">
+                <span class="tab-icon">📦</span>
+                Items
+            </button>
+            <button class="tab-button" data-tab="inventory">
+                <span class="tab-icon">📊</span>
+                Inventory
+            </button>
+            <button class="tab-button" data-tab="shipments">
+                <span class="tab-icon">🚚</span>
+                Shipments
+            </button>
+        </nav>
+
+        <!-- Tab Content -->
+        <main class="content">
+            
+            <!-- ORDERS TAB -->
+            <section id="orders" class="tab-content active">
+                <div class="section-header">
+                    <h2>Order Management</h2>
+                    <button id="newOrderBtn" class="btn btn-primary">+ New Order</button>
+                </div>
+
+                <!-- Create Order Form -->
+                <div id="createOrderForm" class="form-card hidden">
+                    <h3>Create New Order</h3>
+                    <form id="orderForm">
+                        <div class="form-group">
+                            <label for="customerName">Customer Name:</label>
+                            <input type="text" id="customerName" placeholder="e.g., John Farmer" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shippingAddress">Shipping Address:</label>
+                            <textarea id="shippingAddress" placeholder="e.g., 123 Agriculture Lane" required></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">Create Order</button>
+                            <button type="button" id="cancelOrderBtn" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Orders Table -->
+                <div class="table-container">
+                    <table id="ordersTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Status</th>
+                                <th>Payment</th>
+                                <th>Total</th>
+                                <th>Address</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersBody">
+                            <tr class="empty-state">
+                                <td colspan="7">No orders yet. Create one to get started!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ITEMS TAB -->
+            <section id="items" class="tab-content">
+                <div class="section-header">
+                    <h2>Order Items</h2>
+                </div>
+
+                <!-- Add Item Form -->
+                <div class="form-card">
+                    <h3>Add Order Item</h3>
+                    <form id="itemForm">
+                        <div class="form-group">
+                            <label for="orderSelect">Select Order:</label>
+                            <select id="orderSelect" required>
+                                <option value="">-- Choose an order --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productName">Product:</label>
+                            <input type="text" id="productName" placeholder="e.g., Corn Seeds" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" id="quantity" placeholder="100" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="unitPrice">Unit Price ($):</label>
+                                <input type="number" id="unitPrice" placeholder="25.50" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">Add Item to Order</button>
+                    </form>
+                </div>
+
+                <!-- Items Preview -->
+                <div class="preview-card">
+                    <h3>Order Items Preview</h3>
+                    <div id="itemsPreview" class="items-list">
+                        <p class="empty-state">Select an order to view items</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- INVENTORY TAB -->
+            <section id="inventory" class="tab-content">
+                <div class="section-header">
+                    <h2>Inventory Management</h2>
+                </div>
+
+                <!-- Inventory Table -->
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Stock</th>
+                                <th>Reorder Level</th>
+                                <th>Status</th>
+                                <th>Warehouse</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryBody">
+                            <tr class="empty-state">
+                                <td colspan="6">Loading inventory...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Stock Update Modal -->
+                <div id="stockModal" class="modal hidden">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Update Stock</h3>
+                            <button type="button" class="close" id="closeStockModal">&times;</button>
+                        </div>
+                        <form id="stockForm">
+                            <div class="form-group">
+                                <label for="newStock">New Stock Quantity:</label>
+                                <input type="number" id="newStock" placeholder="50" min="0" required>
+                            </div>
+                            <div class="modal-actions">
+                                <button type="submit" class="btn btn-success">Update</button>
+                                <button type="button" class="btn btn-secondary" id="cancelStockBtn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SHIPMENTS TAB -->
+            <section id="shipments" class="tab-content">
+                <div class="section-header">
+                    <h2>Shipment Tracking</h2>
+                </div>
+
+                <!-- Shipments Table -->
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Tracking #</th>
+                                <th>Carrier</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="shipmentsBody">
+                            <tr class="empty-state">
+                                <td colspan="5">No shipments yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Payment Status Modal -->
+        <div id="paymentModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Update Payment Status</h3>
+                    <button type="button" class="close" id="closePaymentModal">&times;</button>
+                </div>
+                <form id="paymentForm">
+                    <div class="form-group">
+                        <label for="paymentStatus">Payment Status:</label>
+                        <select id="paymentStatus" required>
+                            <option value="Pending">Pending</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Failed">Failed</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="button" class="btn btn-secondary" id="cancelPaymentBtn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Alert/Toast Notifications -->
+        <div id="toast" class="toast hidden"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
