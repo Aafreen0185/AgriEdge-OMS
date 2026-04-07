@@ -122,10 +122,3 @@ Covers all classes with isolated test methods:
 
 ---
 
-## Demo Flow (for CLI simulation / video walkthrough)
-
-1. Create an AgriEdge Order (Status: New, Payment: Pending) → Process Builder fires → Task created for Platform 1 user
-2. Add OrderItems → Trigger fires → Total Amount updates, Order Status moves to Processing, Shipment record created
-3. Update Payment Status to Paid → Order moves to Delivered, Shipment updates to Delivered, email sent to customer contacts
-4. Update Payment Status to Failed → Order canceled, OrderItems and Shipment deleted
-5. Test Validation Rules: try saving Shipment without tracking number on a Delivered order; try saving Inventory below reorder level
